@@ -1,28 +1,28 @@
-import doctor from '../models/doctor.js';
-// Obtener todos los productos (GET)
+import Doctor from '../models/doctor.js';
+// Obtener todos los doctores (GET)
 export const obtenerTodosLosDoctores = async (req, res) => {
     try {
-        const doctor = await Product.find();
-        res.json(doctor);
+        const doctores = await Doctor.find();
+        res.json(doctores);
     } catch (error) {
-        res.status(500).json({ mensaje: 'Hubo un error al obtener la lista de doctores' });
+        res.status(500).json({ mensaje: 'Hubo un error al obtener la lista de doctores: ' + error });
     }
 };
-// Obtener un solo producto por ID (GET)
+// Obtener un solo doctor por ID (GET)
 export const obtenerDoctorPorId = async (req, res) => {
     try {
-        const doctor = await doctor.findById(req.params.id);
-        if (!doctor) {
+        const doctorid = await Doctor.findById(req.params.id);
+        if (!doctorid) {
             return res.status(404).json({ mensaje: 'No se encontró a este doctor' });
         }
-        res.json(doctor);
+        res.json(doctorid);
     } catch (error) {
         res.status(500).json({ mensaje: 'Hubo un error al obtener la información del doctor' });
     }
 };
-// Crear un nuevo producto (POST)
+// Crear un nuevo doctor (POST)
 export const crearDoctor = async (req, res) => {
-    const nuevoDoctor = new doctor(req.body);
+    const nuevoDoctor = new Doctor(req.body);
     try {
         const doctorGuardado = await nuevoDoctor.save();
         res.status(201).json(doctorGuardado);
@@ -31,14 +31,14 @@ export const crearDoctor = async (req, res) => {
         res.status(500).json({ mensaje: 'Hubo un error al agregar el perfil del doctor' });
     }
 };
-// Actualizar un producto existente (PUT)
+// Actualizar un doctor existente (PUT)
 export const actualizarDoctor = async (req, res) => {
     try {
-        const doctor = await doctor.findById(req.params.id);
-        if (!doctor) {
+        const doctorExistente = await Doctor.findById(req.params.id);
+        if (!doctorExistente) {
             return res.status(404).json({ mensaje: 'Error al actualizar perfil' });
         }
-        const doctorActualizado = await Product.findByIdAndUpdate(req.params.id, req.body, {
+        const doctorActualizado = await Doctor.findByIdAndUpdate(req.params.id, req.body, {
             new: true
         });
         res.json(doctorActualizado);
@@ -46,16 +46,16 @@ export const actualizarDoctor = async (req, res) => {
         res.status(500).json({ mensaje: 'Hubo un error al actualizar el perfil' });
     }
 };
-// Eliminar un producto (DELETE)
+// Eliminar un doctor (DELETE)
 export const eliminarDoctor = async (req, res) => {
     try {
-        const doctor = await Product.findById(req.params.id);
-        if (!doctor) {
+        const doctorExistente = await Doctor.findById(req.params.id);
+        if (!doctorExistente) {
             return res.status(404).json({ mensaje: 'Perfil no encontrado' });
         }
-        await Product.findByIdAndDelete(req.params.id);
+        await Doctor.findByIdAndDelete(req.params.id);
         res.json({ mensaje: 'Perfil del doctor eliminado correctamente' });
     } catch (error) {
-        res.status(500).json({ mensaje: 'Hubo un error al eliminar el producto' });
+        res.status(500).json({ mensaje: 'Hubo un error al eliminar el doctor' });
     }
 };
