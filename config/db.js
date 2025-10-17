@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 let dbStatus = 'desconectado';
+
 const conectarDB = async () => {
 try {
 const db = await mongoose.connect(process.env.MONGO_URI);
@@ -11,4 +12,5 @@ dbStatus = 'error';
 console.log(`error: ${error.message}`);
 }
 };
+
 export { conectarDB, dbStatus };
